@@ -1,165 +1,92 @@
-# README - Simulador de Movimentos de Peças de Xadrez
+Simulação de Movimentação de Peças de Xadrez
+Este projeto foi desenvolvido para simular a movimentação de peças de xadrez em um tabuleiro 8x8. O programa, implementado em linguagem C, permite ao usuário controlar o movimento de quatro peças: Bispo, Torre, Rainha e Cavalo. A movimentação das peças é validada em tempo real, garantindo que cada posição final respeite as regras do jogo e esteja dentro dos limites do tabuleiro.
 
-## Introdução
-Este programa simula a movimentação de três peças de xadrez: **Bispo, Torre e Rainha**. O usuário pode escolher uma direção para cada peça, e o programa exibe a sequência de movimentos dessa peça em um tabuleiro teórico. O tabuleiro é representado por coordenadas semelhantes às do xadrez tradicional (por exemplo, `c1`, `a3`).
+Funcionalidades
+O programa permite a movimentação das seguintes peças de xadrez:
 
----
+Bispo: Movimenta-se apenas nas diagonais.
 
-## Bibliotecas Utilizadas
-```c
-#include <stdio.h>
-#include <string.h>
-```
-- **`stdio.h`**: Biblioteca padrão de entrada e saída, usada para `printf` e `scanf`.
-- **`string.h`**: Biblioteca necessária para manipular strings, usada para comparar strings com `strcmp()`.
+Direção diagonalD: Move para a diagonal direita.
+Direção diagonalE: Move para a diagonal esquerda.
+Torre: Movimenta-se em linha reta, para cima, para a esquerda ou para a direita.
 
----
+Direção cima: Move para cima no tabuleiro.
+Direção esquerda: Move para a esquerda no tabuleiro.
+Direção direita: Move para a direita no tabuleiro.
+Rainha: Combina os movimentos da Torre e do Bispo, podendo se mover tanto nas linhas retas quanto nas diagonais.
 
-## Estrutura do Código
-### 1. Função `print_posicao()`
-```c
-void print_posicao(char coluna, int linha) {
-    printf("%c%d\n", coluna, linha);
-}
-```
-Essa função recebe um caractere (`coluna`) e um número (`linha`) e imprime no formato correto da notificação de xadrez, como `c1`, `e5`.
+Direções: cima, esquerda, direita, diagonalD, diagonalE.
+Cavalo: Movimenta-se de forma única, em um padrão de "L", podendo se mover para baixo ou para a esquerda.
 
-### 2. Declaração das Variáveis
-```c
-char bispo[10], torre[10], rainha[10];
-```
-Essas são strings que armazenam as direções escolhidas pelo usuário.
+Direção baixo: Move para baixo no tabuleiro.
+Direção esquerda: Move para a esquerda no tabuleiro.
+O programa também valida se a nova posição de cada peça está dentro dos limites do tabuleiro 8x8. Caso um movimento ultrapasse os limites, o sistema emite uma mensagem de erro.
 
-```c
-char bispo_coluna = 'c';
-int bispo_linha = 1;
-char torre_coluna = 'd';
-int torre_linha = 1;
-char rainha_coluna = 'e';
-int rainha_linha = 1;
-```
-Essas variáveis representam as posições iniciais de cada peça no tabuleiro.
+Estrutura do Código
+O código é dividido em funções que tratam das funcionalidades principais do programa:
 
-### 3. Entrada e Movimentação do Bispo
-```c
-printf("Digite qual a direção o Bispo vai assumir (direita ou esquerda): \n");
-scanf("%s", bispo);
-```
-Solicita ao usuário a direção em que o bispo deve se mover.
+Função print_posicao: Exibe a posição de uma peça em notação de xadrez (ex.: "c3", "h8").
+Função esta_no_tabuleiro: Verifica se uma peça permanece dentro dos limites do tabuleiro após um movimento.
+Função main: Controla o fluxo principal do programa, gerenciando a entrada de dados do usuário e a execução dos movimentos das peças.
+Como Utilizar
+Para compilar e executar o código, siga os passos abaixo:
 
-#### Lógica de Movimentação do Bispo
-```c
-for (int i = 1; i <= 5; i++) {
-    if (strcmp(bispo, "direita") == 0) {
-        bispo_coluna++;
-        bispo_linha++;
-    } else if (strcmp(bispo, "esquerda") == 0) {
-        bispo_coluna--;
-        bispo_linha++;
-    } else {
-        printf("Direção inválida!\n");
-        break;
-    }
-    printf("Passo %d: ", i);
-    print_posicao(bispo_coluna, bispo_linha);
-}
-```
-- O `for` move o bispo por **5 casas**.
-- `strcmp()` compara a entrada do usuário e verifica se é "direita" ou "esquerda".
-- Se for **direita**, o bispo sobe **diagonalmente para a direita** (`bispo_coluna++`, `bispo_linha++`).
-- Se for **esquerda**, o bispo sobe **diagonalmente para a esquerda** (`bispo_coluna--`, `bispo_linha++`).
-- Se a entrada for inválida, o programa exibe um erro e interrompe a movimentação do bispo.
+Compilação: Utilize um compilador C (como o GCC) para compilar o código:
 
-### 4. Entrada e Movimentação da Torre
-```c
-printf("\nDigite a direção que a Torre vai assumir (cima, esquerda ou direita): \n");
-scanf("%s", torre);
-```
-- Solicita ao usuário a direção da torre.
+bash
+Copiar
+Editar
+gcc movimentacao_pecas.c -o movimentacao_pecas
+Execução: Após a compilação, execute o programa gerado:
 
-#### Lógica da Torre
-```c
-for (int i = 1; i <= 5; i++) {
-    if (strcmp(torre, "cima") == 0) {
-        torre_linha++;
-    } else if (strcmp(torre, "esquerda") == 0) {
-        torre_coluna--;
-    } else if (strcmp(torre, "direita") == 0) {
-        torre_coluna++;
-    } else {
-        printf("Direção inválida!\n");
-        break;
-    }
-    printf("Passo %d: ", i);
-    print_posicao(torre_coluna, torre_linha);
-}
-```
-- A torre pode **andar apenas em linha reta** (cima, esquerda ou direita).
-- Dependendo da direção escolhida, altera **somente a coluna ou a linha**.
+bash
+Copiar
+Editar
+./movimentacao_pecas
+Interação com o Programa: O programa solicitará ao usuário o número de movimentos para cada peça e as direções desejadas. As direções devem ser inseridas conforme as opções disponibilizadas:
 
-### 5. Entrada e Movimentação da Rainha
-```c
-printf("\nDigite a direção que a Rainha vai assumir (cima, esquerda, diagonalD, diagonalE ou direita): \n");
-scanf("%s", rainha);
-```
-- Solicita ao usuário a direção da rainha.
+Para o Bispo: diagonalD ou diagonalE.
+Para a Torre: cima, esquerda ou direita.
+Para a Rainha: cima, esquerda, direita, diagonalD, diagonalE.
+Para o Cavalo: baixo ou esquerda.
+Após cada movimento, a nova posição da peça será exibida em notação de xadrez, ou uma mensagem de erro será mostrada caso o movimento ultrapasse os limites do tabuleiro.
 
-#### Lógica da Rainha
-```c
-for (int i = 1; i <= 5; i++) {
-    if (strcmp(rainha, "cima") == 0) {
-        rainha_linha++;
-    } else if (strcmp(rainha, "esquerda") == 0) {
-        rainha_coluna--;
-    } else if (strcmp(rainha, "direita") == 0) {
-        rainha_coluna++;
-    } else if (strcmp(rainha, "diagonalD") == 0) {
-        rainha_coluna++;
-        rainha_linha++;
-    } else if (strcmp(rainha, "diagonalE") == 0) {
-        rainha_coluna--;
-        rainha_linha++;
-    } else {
-        printf("Direção inválida!\n");
-        break;
-    }
-    printf("Passo %d: ", i);
-    print_posicao(rainha_coluna, rainha_linha);
-}
-```
-- A rainha pode **andar tanto em linha reta quanto na diagonal**.
-- Se for diagonal, **modifica coluna e linha ao mesmo tempo**.
+Exemplo de Execução
+Um exemplo de execução do programa pode ser visualizado abaixo:
 
----
-## Exemplo de Saída
-### Entrada do Usuário
-```
-Digite qual a direção o Bispo vai assumir (direita ou esquerda):
-direita
-Digite a direção que a Torre vai assumir (cima, esquerda ou direita):
-cima
-Digite a direção que a Rainha vai assumir (cima, esquerda, diagonalD, diagonalE ou direita):
-diagonalD
-```
-
-### Saída Gerada
-```
+bash
+Copiar
+Editar
+Digite quantos movimentos o Bispo vai fazer e em que direção (diagonalD ou diagonalE):
+Quantos movimentos o Bispo vai fazer? 2
 Movimentação do Bispo:
+Digite a direção do movimento 1 (diagonalD ou diagonalE): diagonalD
 Passo 1: d2
-Passo 2: e3
-...
+Digite a direção do movimento 2 (diagonalD ou diagonalE): diagonalE
+Passo 2: c3
+
+Digite quantos movimentos a Torre vai fazer e em que direção (cima, esquerda ou direita):
+Quantos movimentos a Torre vai fazer? 1
 Movimentação da Torre:
-Passo 1: d2
-Passo 2: d3
-...
-Movimentação da Rainha:
-Passo 1: f2
-Passo 2: g3
-...
-```
+Digite a direção do movimento 1 (cima, esquerda ou direita): cima
+Passo 1: a2
+Requisitos
+Sistema Operacional: Qualquer sistema que suporte a linguagem C.
+Compilador C: GCC ou qualquer compilador compatível com a linguagem C.
+Funcionamento Detalhado
+Posições Iniciais: As peças começam em posições predefinidas no tabuleiro:
 
----
-## Conclusão
-Esse programa é uma excelente forma de aprender **lógica de programação**, manipulação de strings e controle de fluxo com `if` e `for`.
-Se tiver dúvidas ou quiser adicionar mais funcionalidades, só avisar! 🚀
+Bispo em c1
+Torre em a1
+Rainha em e1
+Cavalo em g1
+Entrada do Usuário: O programa solicita que o usuário informe o número de movimentos e as direções para cada peça. A entrada é validada para garantir que a direção inserida seja compatível com os movimentos possíveis para cada peça.
 
+Validação dos Movimentos: Após cada movimento, o programa verifica se a posição resultante está dentro dos limites do tabuleiro (linhas de 1 a 8 e colunas de 'a' a 'h'). Caso o movimento seja inválido, o programa interrompe a execução da peça e exibe uma mensagem de erro.
+
+Possíveis Melhorias Futuras
+Implementação de um sistema de repetição de movimentos, permitindo ao usuário corrigir entradas incorretas.
+Inclusão de novas peças (como o Rei e os Peões) com suas respectivas regras de movimento.
+Adição de uma interface gráfica para tornar a interação mais visual e intuitiva.
+Conclusão
+Este projeto foi desenvolvido com o objetivo de ilustrar a implementação de um jogo de xadrez básico, focando na movimentação das peças de forma simples e interativa. O código é modular e pode ser facilmente expandido para incluir mais funcionalidades, como a movimentação de outras peças ou a adição de um sistema de jogo completo.
